@@ -19,8 +19,8 @@ import { TreeSelect } from 'primereact/treeselect';
 import { SelectButton } from 'primereact/selectbutton';
 import { Button } from 'primereact/button';
 import { InputNumber } from 'primereact/inputnumber';
-import { CountryService } from '../../../demo/service/CountryService';
-import { NodeService } from '../../../demo/service/NodeService';
+import { CountryService } from '../../../app/service/CountryService';
+import { NodeService } from '../../../app/service/NodeService';
 
 export const InputDemo = () => {
     const [floatValue, setFloatValue] = useState('');

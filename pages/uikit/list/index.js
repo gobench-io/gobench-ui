@@ -5,7 +5,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { Rating } from 'primereact/rating';
 import { PickList } from 'primereact/picklist';
 import { OrderList } from 'primereact/orderlist';
-import { ProductService } from '../../../demo/service/ProductService';
+import { ProductService } from '../../../app/service/ProductService';
 import { InputText } from 'primereact/inputtext';
 import getConfig from 'next/config';
 

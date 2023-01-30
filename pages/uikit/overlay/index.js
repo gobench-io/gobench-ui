@@ -8,7 +8,7 @@ import { DataTable } from 'primereact/datatable';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { InputText } from 'primereact/inputtext';
 import { confirmPopup, ConfirmPopup } from 'primereact/confirmpopup';
-import { ProductService } from '../../../demo/service/ProductService';
+import { ProductService } from '../../../app/service/ProductService';
 import getConfig from 'next/config';
 
 const OverlayDemo = () => {

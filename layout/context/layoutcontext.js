@@ -13,7 +13,7 @@ export const LayoutProvider = (props) => {
     });
 
     const [layoutState, setLayoutState] = useState({
-        staticMenuDesktopInactive: false,
+        staticMenuDesktopInactive: true,
         overlayMenuActive: false,
         profileSidebarVisible: false,
         configSidebarVisible: false,

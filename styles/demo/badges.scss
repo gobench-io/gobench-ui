@@ -27,35 +27,39 @@
 }
 
 .customer-badge {
-    &.status-qualified {
-        background: #C8E6C9;
-        color: #256029;
+    &.status-pending {
+        background: #FFD8B2;
+        color: #805B36;
     }
 
-    &.status-unqualified {
-        background: #FFCDD2;
-        color: #C63737;
-    }
-
-    &.status-negotiation {
-        background: #FEEDAF;
-        color: #8A5340;
-    }
-
-    &.status-new {
-        background: #B3E5FC;
-        color: #23547B;
-    }
-
-    &.status-renewal {
+    &.status-provisioning {
         background: #ECCFFF;
         color: #694382;
     }
 
-    &.status-proposal {
-        background: #FFD8B2;
-        color: #805B36;
+    &.status-running {
+        background: #C8E6C9;
+        color: #256029;
     }
+
+    &.status-finished {
+        background: #B3E5FC;
+        color: #23547B;
+    }
+
+    &.status-error {
+        background: #FFCDD2;
+        color: #C63737;
+    }
+
+    &.status-cancel {
+        background: #FEEDAF;
+        color: #656160;
+    }
+
+
+
+
 }
 
 .order-badge {

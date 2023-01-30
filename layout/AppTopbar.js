@@ -1,30 +1,28 @@
-import getConfig from 'next/config';
-import Link from 'next/link';
-import Router, { useRouter } from 'next/router';
-import { classNames } from 'primereact/utils';
-import React, { forwardRef, useContext, useImperativeHandle, useRef } from 'react';
-import { LayoutContext } from './context/layoutcontext';
+import getConfig from 'next/config'
+import Link from 'next/link'
+import { classNames } from 'primereact/utils'
+import React, { forwardRef, useContext, useImperativeHandle, useRef } from 'react'
+import { LayoutContext } from './context/layoutcontext'
 
 const AppTopbar = forwardRef((props, ref) => {
-    const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);
-    const menubuttonRef = useRef(null);
-    const topbarmenuRef = useRef(null);
-    const topbarmenubuttonRef = useRef(null);
-    const contextPath = getConfig().publicRuntimeConfig.contextPath;
+    const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext)
+    const menubuttonRef = useRef(null)
+    const topbarmenuRef = useRef(null)
+    const topbarmenubuttonRef = useRef(null)
+    const contextPath = getConfig().publicRuntimeConfig.contextPath
 
     useImperativeHandle(ref, () => ({
         menubutton: menubuttonRef.current,
         topbarmenu: topbarmenuRef.current,
         topbarmenubutton: topbarmenubuttonRef.current
-    }));
+    }))
 
     return (
         <div className="layout-topbar">
             <Link href="/">
                 <a className="layout-topbar-logo">
                     <>
-                        <img src={`${contextPath}/layout/images/logo-${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="47.22px" height={'35px'} widt={'true'} alt="logo" />
-                        <span>SAKAI</span>
+                        <img src={`${contextPath}/layout/images/gobench-logo.png`} width="auto" height={'35px'} widt={'true'} alt="logo" />
                     </>
                 </a>
             </Link>
@@ -46,15 +44,9 @@ const AppTopbar = forwardRef((props, ref) => {
                     <i className="pi pi-user"></i>
                     <span>Profile</span>
                 </button>
-                <Link href="/documentation">
-                    <button type="button" className="p-link layout-topbar-button">
-                        <i className="pi pi-cog"></i>
-                        <span>Settings</span>
-                    </button>
-                </Link>
             </div>
         </div>
-    );
-});
+    )
+})
 
-export default AppTopbar;
+export default AppTopbar

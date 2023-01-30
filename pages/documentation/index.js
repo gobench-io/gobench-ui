@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import React from 'react';
-import { CodeHighlight } from '../../demo/components/CodeHighlight';
+import { CodeHighlight } from '../../app/components/CodeHighlight';
 import styles from './index.module.css';
 
 const Documentation = () => {
@@ -14,11 +14,11 @@ const Documentation = () => {
 
                         <h5>Getting Started</h5>
                         <p>
-                            Sakai is an application template for React based on the popular <a href="https://nextjs.org/" className="font-medium hover:underline">NextJS</a> framework. To get started, clone the <a href="https://github.com/primefaces/sakai-react" className="font-medium hover:underline">repository</a> from 
+                            Sakai is an application template for React based on the popular <a href="https://nextjs.org/" className="font-medium hover:underline">NextJS</a> framework. To get started, clone the <a href="https://github.com/primefaces/sakai-react" className="font-medium hover:underline">repository</a> from
                             GitHub and install the dependencies with npm or yarn.
                         </p>
                         <CodeHighlight>
-                        {`
+                            {`
 "npm install" or "yarn"
 `}
                         </CodeHighlight>
@@ -29,7 +29,7 @@ const Documentation = () => {
                         </p>
 
                         <CodeHighlight>
-                        {`
+                            {`
 "npm run dev" or "yarn dev"
 `}
                         </CodeHighlight>
@@ -38,7 +38,7 @@ const Documentation = () => {
                         <p>Dependencies of Sakai are listed below and needs to be defined at package.json.</p>
 
                         <CodeHighlight lang="js">
-                        {`
+                            {`
 "primereact": "^8.6.0",                    //required: PrimeReact components
 "primeicons": "^6.0.1",                    //required: Icons
 "primeflex": "^3.2.1",                     //required: Utility CSS classes
@@ -63,7 +63,7 @@ const Documentation = () => {
 
                         <h5>Integration with Existing NextJS Applications</h5>
                         <p>Only the folders that are related to the layout needs to move in to your project. We've created a short tutorial with details.</p>
-                        
+
                         <div className={styles['video-container']}>
                             <iframe className={styles['video']} width="560" height="315" src="https://www.youtube.com/embed/jnm0_U6zJFY" frameborder="0" allowfullscreen></iframe>
                         </div>
@@ -80,7 +80,7 @@ const Documentation = () => {
 
                         <h6>src/layout/_variables.scss</h6>
                         <CodeHighlight lang="scss">
-                        {`
+                            {`
 /* General */
 $scale:14px;                    /* initial font size */ 
 $borderRadius:12px;             /* border radius of layout element e.g. card, sidebar */ 

@@ -1,39 +1,70 @@
-import getConfig from 'next/config';
-import { useRouter } from 'next/router';
-import React, { useContext, useState } from 'react';
-import AppConfig from '../../../layout/AppConfig';
-import { Checkbox } from 'primereact/checkbox';
-import { Button } from 'primereact/button';
-import { Password } from 'primereact/password';
-import { LayoutContext } from '../../../layout/context/layoutcontext';
-import { InputText } from 'primereact/inputtext';
-import { classNames } from 'primereact/utils';
+import React, { useContext, useEffect, useState, useRef } from 'react'
+import getConfig from 'next/config'
+import { useRouter } from 'next/router'
+import { Checkbox } from 'primereact/checkbox'
+import { Button } from 'primereact/button'
+import { Password } from 'primereact/password'
+import { InputText } from 'primereact/inputtext'
+import { classNames } from 'primereact/utils'
+import { Chart } from 'primereact/chart'
+import { Column } from 'primereact/column'
+import { DataTable } from 'primereact/datatable'
+import { Menu } from 'primereact/menu'
+import Link from 'next/link'
+import { Toast } from 'primereact/toast'
+import localStorage from 'local-storage'
+import { get } from 'lodash'
+import AppConfig from '../../../layout/AppConfig'
+import { LayoutContext } from '../../../layout/context/layoutcontext'
+import { GobenchService } from '../../../app/service'
 
 const LoginPage = () => {
-    const [password, setPassword] = useState('');
-    const [checked, setChecked] = useState(false);
-    const { layoutConfig } = useContext(LayoutContext);
-    const contextPath = getConfig().publicRuntimeConfig.contextPath;
-    const router = useRouter();
-    const containerClassName = classNames('surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden', {'p-input-filled': layoutConfig.inputStyle === 'filled'});
+    const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [checked, setChecked] = useState(false)
+    const { layoutConfig } = useContext(LayoutContext)
+    const contextPath = getConfig().publicRuntimeConfig.contextPath
+    const router = useRouter()
+    const containerClassName = classNames('surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden', { 'p-input-filled': layoutConfig.inputStyle === 'filled' })
+    const toast = useRef(null)
+    const gobenchService = new GobenchService()
 
+    const handleCatch = (error) => {
+        setLoading(false)
+        const message = get(error, ['response', 'data', 'error', 'message'], error.message)
+        toast.current.show({ severity: 'error', summary: 'Error', detail: message, life: 3000 })
+        console.error({ error })
+    }
+    const login = () => {
+        if (!password) {
+            toast.current.show({ severity: 'error', summary: 'Validation Failed', detail: 'Please input password', life: 3000 })
+            return
+        }
+
+        gobenchService.login({ password }).then((data) => {
+            if (!data || !data.id) {
+                toast.current.show({ severity: 'error', summary: 'Error', detail: 'Get token failed', life: 3000 })
+                return
+            }
+            localStorage.set('token', data.id)
+            router.push('/')
+            setLoading(false)
+        }).catch(handleCatch)
+    }
     return (
         <div className={containerClassName}>
+            <Toast ref={toast} />
             <div className="flex flex-column align-items-center justify-content-center">
-                <img src={`${contextPath}/layout/images/logo-${layoutConfig.colorScheme === 'light' ? 'dark' : 'white'}.svg`} alt="Sakai logo" className="mb-5 w-6rem flex-shrink-0"/>
+                <img src={`${contextPath}/layout/images/gobench-logo.png`} alt="Sakai logo" className="mb-5 w-18rem flex-shrink-0" />
                 <div style={{ borderRadius: '56px', padding: '0.3rem', background: 'linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)' }}>
                     <div className="w-full surface-card py-8 px-5 sm:px-8" style={{ borderRadius: '53px' }}>
                         <div className="text-center mb-5">
-                            <img src={`${contextPath}/demo/images/login/avatar.png`} alt="Image" height="50" className="mb-3" />
+                            <img src={`${contextPath}/layout/images/favicon.png`} alt="Image" height="50" className="mb-3" />
                             <div className="text-900 text-3xl font-medium mb-3">Welcome, Isabel!</div>
-                            <span className="text-600 font-medium">Sign in to continue</span>
+                            <span className="text-600 font-medium">Enter password to continue</span>
                         </div>
 
                         <div>
-                            <label htmlFor="email1" className="block text-900 text-xl font-medium mb-2">
-                                Email
-                            </label>
-                            <InputText inputid="email1" type="text" placeholder="Email address" className="w-full md:w-30rem mb-5" style={{ padding: '1rem' }} />
 
                             <label htmlFor="password1" className="block text-900 font-medium text-xl mb-2">
                                 Password
@@ -48,17 +79,17 @@ const LoginPage = () => {
                                     </label>
                                 </div>
                                 <a className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }}>
-                                    Forgot password?
+                                    Don't need authentication?
                                 </a>
                             </div>
-                            <Button label="Sign In" className="w-full p-3 text-xl" onClick={() => router.push('/')}></Button>
+                            <Button label="Sign In" className="w-full p-3 text-xl" onClick={login}></Button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
 LoginPage.getLayout = function getLayout(page) {
     return (
@@ -66,6 +97,6 @@ LoginPage.getLayout = function getLayout(page) {
             {page}
             <AppConfig simple />
         </React.Fragment>
-    );
-};
-export default LoginPage;
+    )
+}
+export default LoginPage
