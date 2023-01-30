@@ -1,7 +1,10 @@
 import getConfig from 'next/config'
 import React, { useContext, useEffect, useState, useRef } from 'react'
 import { Button } from 'primereact/button'
+import { Tag } from 'primereact/tag'
+import { Chip } from 'primereact/chip'
 import { useRouter } from 'next/router'
+import { Toolbar } from 'primereact/toolbar'
 import { Chart } from 'primereact/chart'
 import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
@@ -58,8 +61,13 @@ const Dashboard = () => {
             target: event.currentTarget,
             message: `Are you sure delete application ${application.name}?`,
             icon: 'pi pi-exclamation-triangle',
-            accept,
-            reject
+            accept: () => {
+                gobenchService.deleteApplication({ id: application.id }).then((data) => {
+                    toast.current.show({ severity: 'success', summary: 'Application deleted', detail: 'The application has been deleted!', life: 3000 })
+                    searchApplications({})
+                }).catch(handleCatch)
+            },
+            // reject
         })
     }
     const cancel = (event, application) => {
@@ -69,9 +77,8 @@ const Dashboard = () => {
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
                 gobenchService.cancelApplication({ id: application.id }).then((data) => {
-
                     toast.current.show({ severity: 'success', summary: 'Application cancelation', detail: 'Application cancelation request sent', life: 3000 })
-                    // poll in a min
+                    // TODO: poll to update application list status
                     searchApplications({})
                 }).catch(handleCatch)
             },
@@ -121,13 +128,13 @@ const Dashboard = () => {
             {['running', 'pending', 'finished'].includes(application.status) && (
                 <>
                     <ConfirmPopup />
-                    <Button onClick={e => cancel(e, application)} label="Cancel" className="p-button-outlined p-button-warning ml-2" />
+                    <Button onClick={e => cancel(e, application)} label="Cancel" className="p-button-outlined p-button-warning cancel-button ml-2" />
                 </>
             )}
             {['finished', 'pending', 'error', 'cancel'].includes(application.status) && (
                 <>
                     <ConfirmPopup />
-                    <Button onClick={e => destroy(e, application)} label="Delete" className="p-button-outlined p-button-danger ml-2" />
+                    <Button onClick={e => destroy(e, application)} label="Delete" className="p-button-danger delete-button ml-2" />
                 </>
             )}
         </>)
@@ -141,12 +148,33 @@ const Dashboard = () => {
     const dateFilterTemplate = (options) => {
         return <></>
     }
+    const applicationSummarize = () => {
+        return <>
+            <div className="border-round mr-2">
+                <div className="text-3xl font-medium text-900 mb-2">Benchmark Applications</div>
+                <div className="font-medium text-500 mb-3">A distributed benchmark tool with Golang</div>
+                <div className="flex flex-wrap align-items-center gap-2">
+                    <Chip label="Action" />
+                    <Chip label="Comedy" />
+                    <Chip label="Mystery" />
+                </div>
+            </div>
+        </>
+    }
+    const actions = () => {
+        return <>
+            <div className='border-round'>
+                <Button label="Create Aplication" icon="pi pi-plus" className="p-button-primary primary-button mb-2" onClick={() => props.action.newToDieuTri()} />
+            </div>
+        </>
+    }
     return (
         <div className="grid">
             <Toast ref={toast} />
             <div className="col-12 ">
                 <div className="card">
-                    <h5>Scenarios</h5>
+                    {/* <h5>Scenarios</h5> */}
+                    <Toolbar className={`mb-4 application-toolbar`} left={applicationSummarize} right={actions}></Toolbar>
                     <DataTable
                         value={applications}
                         paginator

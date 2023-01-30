@@ -8,7 +8,8 @@ export const LayoutProvider = (props) => {
         inputStyle: 'outlined',
         menuMode: 'static',
         colorScheme: 'light',
-        theme: 'lara-light-indigo',
+        theme: 'saga-blue',
+        // theme: 'lara-light-indigo',
         scale: 14
     });
 
